@@ -5,6 +5,18 @@ const {Restaurant, Menu, Item} = require("./models/index")
 const {sequelize} = require("./db")
 
 //TODO: 
+app.use(express.json())
+app.get('/restaurants', async (req, res) => {
+    let allRestaurants = await Restaurant.findAll({
+        include: [
+            {
+                model: Menu,
+                include: Item
+            },
+        ],
+    })
+    res.json(allRestaurants);
+})
 
 app.listen(port, () => {
     sequelize.sync()
