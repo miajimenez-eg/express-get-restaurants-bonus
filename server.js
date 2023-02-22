@@ -5,20 +5,20 @@ const {Restaurant, Menu, Item} = require("./models/index")
 const {sequelize} = require("./db")
 
 //TODO: 
-app.use(express.json())
+app.use(express.json());
 app.get('/restaurants', async (req, res) => {
-    let allRestaurants = await Restaurant.findAll({
-        include: [
-            {
-                model: Menu,
-                include: Item
-            },
-        ],
-    })
+    const allRestaurants = await Restaurant.findAll({
+        include: [{
+            model: Menu,
+            include: [{
+                model: Item
+            }]
+        }]
+    });
     res.json(allRestaurants);
 })
 
 app.listen(port, () => {
     sequelize.sync()
-    console.log("App listening on port " + port)
+    console.log("App listening on port http://localhost:3000/restaurants")
 })
